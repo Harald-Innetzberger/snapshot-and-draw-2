@@ -16,12 +16,17 @@ const height = window.innerHeight;
 const constraints = {
   audio: false,
   video: {
+    width: width,
+    height: height,
+    /*
     width: {
       min: 640, ideal: width, max: 2560
     },
     height: {
       min: 400, ideal: height, max: 1440
     },
+
+     */
     aspectRatio: {
       ideal: 1.777777778 // 16/9
     },
@@ -82,10 +87,10 @@ const doPausePlayVideo = () => {
 const createCanvas = () => {
   const mainContainer = document.getElementById('main');
   canvas = document.createElement('canvas');
-  
-  //const { width, height } = video.getBoundingClientRect();
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+
+  const { width, height } = video.getBoundingClientRect();
+  canvas.width = width;
+  canvas.height = height;
 
   ctx = canvas.getContext('2d', { willReadFrequently: true }); // faster with will read frequently ;)
 

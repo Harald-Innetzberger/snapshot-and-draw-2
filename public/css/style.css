@@ -4,8 +4,6 @@
 /* camera (/camera) **** */
 /* ********************* */
 #view-container {
-  width: 100vw;
-  height: 100vh;
   position: relative;
 }
 
@@ -13,7 +11,8 @@
 #main {
 
   position: fixed;
-  overflow: hidden;
+
+  overflow:  hidden;
 
   .no-active-stream {
     background-image: url('../images/camera/videocam_off.svg');
@@ -96,12 +95,9 @@
 /* Portrait mode (smaller viewports) */
 @media screen and (orientation: portrait) {
   #main, .video-overlay, .no-active-stream {
-    width: 100vw;
-    height: 100vh;
+    border: 1px solid red;
   }
   #controls {
-    width: 100vw;
-    height: auto;
     margin: 0 auto;
     padding: 0 0 .2em 0;
     text-align: center;
