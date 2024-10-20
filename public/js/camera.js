@@ -16,12 +16,17 @@ const height = window.innerHeight;
 const constraints = {
   audio: false,
   video: {
+    width: width,
+    height: height,
+    /*
     width: {
       min: 640, ideal: width, max: 2560
     },
     height: {
       min: 400, ideal: height, max: 1440
     },
+
+     */
     aspectRatio: {
       ideal: 1.777777778 // 16/9
     },
