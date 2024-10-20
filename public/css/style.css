@@ -1,20 +1,19 @@
-@import './pico/pico.zinc.min.css';
+@import './pico/pico.jade.min.css';
 
 /* ********************* */
 /* camera (/camera) **** */
 /* ********************* */
 #view-container {
+  position: relative;
   width: 100vw;
   height: 100vh;
-  position: relative;
 }
 
 /* Video- / Canvas - Container */
 #main {
 
   position: fixed;
-  top: 0;
-  left: 0;
+  overflow: hidden;
 
   .no-active-stream {
     background-image: url('../images/camera/videocam_off.svg');
@@ -95,10 +94,11 @@
  */
 
 /* Portrait mode (smaller viewports) */
-@media screen and (orientation: landscape) {
+@media screen and (orientation: portrait) {
   #main, .video-overlay, .no-active-stream {
     width: 100vw;
-    height: 80vh;
+    height: 100vh;
+    border: 5px solid lightgreen;
   }
   #controls {
     width: 100vw;
@@ -106,6 +106,7 @@
     margin: 0 auto;
     padding: 0 0 .2em 0;
     text-align: center;
+    background-color: rgba(17, 17, 17, 0.8);
 
     bottom: 0;
 
