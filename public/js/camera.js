@@ -11,25 +11,15 @@ const buttons = [...guiContainer.querySelectorAll('button')];
 const [toggleFs, photoLibrary, snapshot, pauseAndDrawOnImage] = buttons;
 
 // set video constraints
-const width = window.visualViewport.width;
-const height = window.visualViewport.height;
-
-console.log(width, height);
-
 const constraints = {
   audio: false,
   video: {
-    width: width,
-    height: height,
-    /*
     width: {
-      min: 640, ideal: width, max: 2560
+      min: 640, ideal: 1920, max: 2560
     },
     height: {
-      min: 400, ideal: height, max: 1440
+      min: 400, ideal: 1080, max: 1440
     },
-
-     */
     aspectRatio: {
       ideal: 1.777777778 // 16/9
     },
