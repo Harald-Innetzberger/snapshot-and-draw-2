@@ -47,6 +47,9 @@ const getVideoDevices = async () => {
 const getMediaStream = async () => {
   let mediaStream = null;
   try {
+    console.log(constraints);
+    constraints.video.width = window.innerWidth;
+    constraints.video.height = window.innerHeight;
     mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
   } catch (error) {
     console.log("get user media -> " + error.message);
