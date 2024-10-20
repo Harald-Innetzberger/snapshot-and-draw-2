@@ -11,8 +11,11 @@ const buttons = [...guiContainer.querySelectorAll('button')];
 const [toggleFs, photoLibrary, snapshot, pauseAndDrawOnImage] = buttons;
 
 // set video constraints
-const width = window.innerWidth;
-const height = window.innerHeight;
+const width = window.visualViewport.width;
+const height = window.visualViewport.height;
+
+console.log(width, height);
+
 const constraints = {
   audio: false,
   video: {
