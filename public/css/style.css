@@ -4,15 +4,13 @@
 /* camera (/camera) **** */
 /* ********************* */
 #view-container {
-  
+  position: relative:
 }
 
 /* Video- / Canvas - Container */
 #main {
 
   position: fixed;
-
-  overflow: hidden;
 
   .no-active-stream {
     background-image: url('../images/camera/videocam_off.svg');
@@ -97,7 +95,6 @@
   #main, .video-overlay, .no-active-stream {
     width: 100vw;
     height: 100vh;
-    border: 5px solid lightgreen;
   }
   #controls {
     width: 100vw;
