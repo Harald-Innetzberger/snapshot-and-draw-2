@@ -42,7 +42,7 @@ const getVideoDevices = async () => {
   }
   return availableVideoDevices;
 };
-
+// interesting: https://mobiforge.com/design-development/html5-mobile-web-canvas
 //-- get (active) camera media stream
 const getMediaStream = async () => {
   let mediaStream = null;
@@ -56,6 +56,18 @@ const getMediaStream = async () => {
   }
   return mediaStream;
 };
+
+video.addEventListener("resize", (e) => {
+  const { videoWidth, videoHeight } = video;
+  alert(videoWidth);
+  // can do smth here
+  // for example
+  video.style.width = videoWidth;
+  video.style.height = videoHeight;
+  video.width = videoWidth;
+  video.height = videoHeight;
+
+}, false);
 
 //-- Pause / play video
 const doPausePlayVideo = () => {
