@@ -54,18 +54,6 @@ const getMediaStream = async () => {
   return mediaStream;
 };
 
-video.addEventListener("resize", (e) => {
-  const { videoWidth, videoHeight } = video;
-  alert(videoWidth);
-  // can do smth here
-  // for example
-  video.style.width = videoWidth;
-  video.style.height = videoHeight;
-  video.width = videoWidth;
-  video.height = videoHeight;
-
-}, false);
-
 //-- Pause / play video
 const doPausePlayVideo = () => {
   const canvas = document.querySelector('canvas');
@@ -87,8 +75,22 @@ const doPausePlayVideo = () => {
   }
 };
 
-// create canvas
 
+video.addEventListener("resize", (e) => {
+  const { videoWidth, videoHeight } = video;
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  // can do smth here
+  // for example
+  video.style.width = width + 'px';
+  video.style.height = height + 'px';
+  video.width = width;
+  video.height = height;
+
+}, false);
+
+// create canvas
 const createCanvas = () => {
   const mainContainer = document.getElementById('main');
   canvas = document.createElement('canvas');
@@ -96,6 +98,8 @@ const createCanvas = () => {
   const { width, height } = video.getBoundingClientRect();
   canvas.width = width;
   canvas.height = height;
+
+  console.log(canvas.width);
 
   ctx = canvas.getContext('2d', { willReadFrequently: true }); // faster with will read frequently ;)
 

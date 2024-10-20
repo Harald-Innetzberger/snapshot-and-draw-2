@@ -17,7 +17,6 @@ video {
 /* Video- / Canvas - Container */
 #main {
 
-  border: 2px solid violet;
   overflow: hidden;
 
   .no-active-stream {
