@@ -4,15 +4,14 @@
 /* camera (/camera) **** */
 /* ********************* */
 #view-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+  
 }
 
 /* Video- / Canvas - Container */
 #main {
 
   position: fixed;
+
   overflow: hidden;
 
   .no-active-stream {
