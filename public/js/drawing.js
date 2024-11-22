@@ -1,3 +1,11 @@
+/*
+File: drawing.js
+Toolbox with drawing utils and drawing history
+HIN, 10/24
+*/
+
+//import { doTakeAPhoto } from '/modules/module.controls.js';
+
 const toolBox = document.querySelector('ul.toolbox');
 const modalContents = toolBox.querySelectorAll('span.toolbox-modal-content');
 
@@ -14,14 +22,19 @@ let strokeSize = 8;
  let history = [];
  let i = -1;
 
+ console.log(ctx);
+
 //-- toolbox actions with visual handling drawing history
+// remove all drawings from canvas
 const reset = () => { 
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height); 
     i = -1; 
 };
 
-const fillColor = () => { const [r,g,b] = ctx.getImageData(0,0,1,1).data; };
+// fill with selected color
+const fillColor = () => { const [r,g,b] = ctx.getImageData(0, 0, 1, 1).data; };
 
+// undo drawings stepwise
 const doUndo = () => {
     if (i <= 0) return reset();
     i--;
@@ -29,22 +42,25 @@ const doUndo = () => {
     fillColor(); 
 };
 
+// redo deleted drawings stepwise
 const doRedo = () => {
     if (i >= history.length-1) return i = history.length-1;
     i++;
-    ctx.putImageData(history[i],0,0);
+    ctx.putImageData(history[i], 0, 0);
     fillColor();
 };
 
+// initiate drawing history
 const doInit = () => {
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height); // start from the beginning
     history = [];
     i = -1; 
 };
 
-const doSave = () => doTakeAPhoto(); // same as take a photo functionality
+// save photo
+//const doSave = () => doTakeAPhoto; // same as take a photo functionality
 
-// Todo: BUG - possibility to open 2 tooltips at same time 
+// toolbox actions
 toolBox.addEventListener("click", (event) => {
 
     const action = event.target;
@@ -59,7 +75,7 @@ toolBox.addEventListener("click", (event) => {
     action.matches('.tool-undo') && doUndo();
     action.matches('.tool-redo') && doRedo();
     action.matches('.tool-init') && doInit();
-    action.matches('.tool-save') && doSave();
+    action.matches('.tool-save') && doTakeAPhoto();
 });
 
 //-- event listeners for changing stroke size and color

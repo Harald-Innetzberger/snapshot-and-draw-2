@@ -3,22 +3,24 @@ extends layouts/main-layout.pug
 
 block content
     div#uploadedPhotos.container-fluid
+        include includes/snackbar.pug
 
         //-- View mode switcher
         article
             header
                 div.header
-                    div Photo Uploads
-                    div
+                    //div Photo Uploads 
+                    div#backAndMonthYearSelector
+                        button.camera(title="Home (Camera)", alt="Home (Camera)", onclick="window.location.href='/'")
                         select#monthYearSelector(name="month-year-selector", aria-label="select")
                             option(value="show_all") Show all
 
                     div#interactions
                         div#viewMode
                             input(type="radio", id="mode-grid-view", name="view-mode", checked="checked")
-                            label(for="mode-grid-view") Grid
+                            //label(for="mode-grid-view") Grid
                             input(type="radio", id="mode-table-view", name="view-mode")
-                            label(for="mode-table-view") Table
+                            //label(for="mode-table-view") Table
                         div#themeSwitcher
                             button.dark
 

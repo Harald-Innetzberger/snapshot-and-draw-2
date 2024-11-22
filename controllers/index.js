@@ -1,12 +1,12 @@
 import { Buffer } from "node:buffer";
 import { readdir, writeFile } from "node:fs/promises";
 import { unlink } from "node:fs";
-import formatDate from "../helpers/helper.formatDate.js";
+import { formatDate } from "../helpers/index.js";
 import path from "node:path";
 
 const __uploadDir = path.resolve('uploads'); // resolve path to uploads folder
 
-// home 
+// home route
 const home = (req, res) => {
     res.render('camera');
 };

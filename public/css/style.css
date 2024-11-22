@@ -4,20 +4,21 @@
 /* camera (/camera) **** */
 /* ********************* */
 #view-container {
-
-}
-
-video {
   width: 100vw;
   height: 100vh;
-  object-fit: cover;
+  position: fixed;
 }
 
-
 /* Video- / Canvas - Container */
-#main {
+#video-container {
 
-  overflow: hidden;
+  position: fixed;
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
   .no-active-stream {
     background-image: url('../images/camera/videocam_off.svg');
@@ -27,25 +28,32 @@ video {
     position: fixed;
     top: 0;
     left: 0;
-
+  
     p {
       font-size: 2rem;
       text-align: center;
-      margin-top: 1em;
+      margin-top: 2.5em;
     }
   }
 }
 
 /* User Interaction GUI (Controls) container */
-#controls {
-
+#controls-container {
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  
   position: fixed;
 
-  button {
-    background: rgba(17, 17, 17, 1.5) no-repeat center center;
+  background-color: #111;
 
-    width: 4em;
-    height: 4em;
+  button {
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
     background-size: 3em;
 
     /* Snapshot button */
@@ -70,51 +78,45 @@ video {
     &.toggle-fs {
       background-image: url('../images/camera/fullscreen.svg');
     }
-    &.toggle-fs[aria-pressed="true"] {
+    &.toggle-fs[aria-pressed="true"] { /* active element */
       background-image: url('../images/camera/close_fullscreen.svg');
     }
   }
 }
 
-/* Landscape mode (larger viewports)
+/* Landscape mode (larger viewports) */
 @media screen and (orientation: landscape) {
-  #main, .video-overlay, .no-active-stream {
-    width: 80vw;
-    height: 100vh;
+  #view-container {
+    flex-direction: row;
   }
-  #controls {
-    width: auto;
-    height: 100vh;
-    margin: 0 auto;
-    align-content: center;
-    border-radius: .5em;
+  #video-container, .video-overlay, .no-active-stream {
+    width: 80%;
+    height: 100%;
+  }
+  #controls-container {
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
 
-    button {
-      display: block;
-    }
+    right: 0;
   }
 }
 
- */
-
 /* Portrait mode (smaller viewports) */
 @media screen and (orientation: portrait) {
-  #main, .video-overlay, .no-active-stream {
-    border: 1px solid red;
-    height: 100vh;
-    width: 100vw;
+  #view-container {
+    flex-direction: column;
   }
-  #controls {
-    margin: 0 auto;
-    padding: 0 0 .2em 0;
-    text-align: center;
-    background-color: rgba(17, 17, 17, 0.8);
+  #video-container, .video-overlay, .no-active-stream {
+    width: 100%;
+    height: 80%;
+  }
+  #controls-container {
+    flex-direction: row;
+    width: 100%;
+    height: 20%;
 
     bottom: 0;
-
-    button {
-      margin: .1em;
-    }
   }
 }
 
@@ -135,20 +137,58 @@ video {
 }
 
 .drawing-active {
-  border: 3px solid var(--pico-primary-background);
-}
-
-/* Todo: Drawing settings (color, stroke strike) */
-#drawingSettings {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 1;
+  cursor: crosshair;
 }
 
 /* ************************ */
 /* Photos (/photos) ****** */
 /* ********************** */
+#backAndMonthYearSelector {
+
+  display: inline-flex; 
+  gap: .6em;
+
+  button {
+
+    background-color: transparent;
+
+    &.camera {
+      background-image: url("../images/photos/camera.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+}
+
+.header {
+
+  #viewMode {
+    
+    input {
+      background-repeat: no-repeat;
+      background-position: center center;
+      font-size: 1.6em;
+      background-size: .9em;
+    }
+
+    #mode-grid-view {
+      background-image: url("../images/photos/grid.svg");
+    }
+  
+    #mode-table-view {
+      background-image: url("../images/photos/table.svg");
+    }
+  
+    input[type=radio] {
+      border-radius: .2em;
+    }
+    input[type=radio]:checked {
+      border-width: .05em;
+    }
+
+  }
+}
+
 #monthYearSelector {
   margin: 0;
   padding-top: .2em;
@@ -184,13 +224,24 @@ video {
   }
 }
 #gridView {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 350px));
+  justify-content: center;
+  gap: .5rem;
+
+  article {
+    font-size: .8em;
+  }
 
   footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: end;
+    gap: .9em;
+
+    .icon {
+      padding: 1em;
+      border: 1px solid var(--pico-primary-background);
+      border-radius: 50%;
+    }
   }
 }
 table#tableView img {
@@ -200,6 +251,14 @@ table#tableView img {
   cursor: pointer;
 }
 /* Modals */
+dialog { /* adapt modal body to image width */
+  article {
+    width: auto;
+  }
+}
+.modal-is-open .photo {
+  cursor: pointer;
+}
 .header {
   display: flex;
   justify-content: space-between;
@@ -253,23 +312,19 @@ img:not([src]) {
   visibility: hidden;
 }
 
-/* Draw interface (Toolbox)*/
+/* ************************* */
+/* Drawing Toolbox **********/
+/* *************************/
 ul.toolbox {
+  display: inline-flex;
   visibility: hidden;
+  padding: 0;
   position: absolute;
   left: 50%;
   bottom: 0;
   z-index: 2;
-  transform: translateX(-50%);
-  display: flex;
-  border: 0.075rem solid var(--pico-primary-background);
-  border-radius: 0.25rem;
-  padding: 0.25em 0.6em;
-  cursor: pointer;
-  background-color:white;
-  gap: .3em;
-  justify-content: space-between;
-  align-items: center;
+  transform: translate(-50%, 0);
+  gap: .35em;
   cursor: pointer;
 
   li {
@@ -284,7 +339,11 @@ ul.toolbox {
 
     background-position: center center;
     background-repeat: no-repeat;
-  
+    background-size: 2.5em;
+    width: 2.8em;
+    height: 2.8em;
+    border: 1px solid #111;
+
     &.tool-brush {
       background-image: url('../images/camera/drawingTools/brush.svg');
     }
@@ -328,10 +387,10 @@ ul.toolbox {
   background-color: var(--pico-primary-background);
   color: #fff;
   text-align: center;
-  border-radius: 6px;
+  border-radius: .375em;
   position: absolute;
   z-index: 1;
-  bottom: 150%;
+  bottom: 120%;
   left: 50%;
   margin-left: -3.9em;
   padding: .2em;
@@ -358,21 +417,20 @@ ul.toolbox {
 /* ***************************** */
 #snackbar {
   visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
+  width: inherit;
   background-color: var(--pico-primary-background);
   text-align: center;
-  border-radius: 0.15em;
   position: fixed;
   z-index: 1;
-  left: 50%;
-  top: 3em;
+  left: 0;
+  top: 0;
+  opacity: 0.9;
   height: 2.5em;
   padding: 0.5em;
 
   p {
     color: white;
-    font-size: 1em;
+    font-size: 1.2em;
   }
 
   &.show {
@@ -399,6 +457,5 @@ ul.toolbox {
       from { bottom: 30px; opacity: 1; }
       to { bottom: 0; opacity: 0; }
     }
-
   }
 }

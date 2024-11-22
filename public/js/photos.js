@@ -7,6 +7,8 @@ const tableView = document.querySelector('#tableView');
 const allActualPhotos = document.querySelectorAll('#tableView img');
 const viewPort = document.getElementById('viewPort');
 let viewPortContent = null;
+const monthYearSelector = document.getElementById('monthYearSelector');
+let lastMonthToSelect = null;
 
 //-- get all photos without url (only the pure image file)
 const getAllPhotosAsArrayWithoutUrl = () => {
@@ -18,7 +20,6 @@ const getAllPhotosAsArrayWithoutUrl = () => {
 /* Date (month/year/ selector) */
 /* Autofill select options     */
 /* *************************** */
-const monthYearSelector = document.getElementById('monthYearSelector');
 const getAllAvailableDates = () => {
     const allAvDates = [];
     for (let i = 0; i < viewPortContent.length; i++) {
@@ -33,6 +34,8 @@ const getAllAvailableDates = () => {
         newOption.text = el;
         monthYearSelector.appendChild(newOption);
     });
+
+    lastMonthToSelect = removeDuplicates[0];
 };
 
 /* ********************************** */
@@ -143,11 +146,24 @@ viewMode.addEventListener('change', (event) => {
     location.reload();
 });
 
+//-- format date to required download designation format (YYYY-MM-DD_HH:MM.jpg)
+const formatDateToDownloadDesignation = (event) => {
+    let { id } = event.target; // keep it simple ... get required props from event target
+
+    const ident = id.split('.')[0];
+    const dt = new Date(parseInt(ident));
+    const toIso = dt.toISOString();
+    const toIsoWithoutSeconds = toIso.substring(0, toIso.lastIndexOf(':'));
+    const destinationFormat = toIsoWithoutSeconds.replace('T', '_').replaceAll('-', '_');
+
+    event.target.setAttribute('download', destinationFormat); // reset download attribute with required format
+};
+
 //-- load required data after dom content was loaded
 document.addEventListener('DOMContentLoaded', () => {
     localStorageViewMode !== null && localStorageViewMode === 'mode-table-view' ? setTableViewMode() : setGridViewMode();
     getAllAvailableDates();
-    monthYearSelector.value = monthYearLocalStorage;
+    monthYearSelector.value = monthYearLocalStorage || lastMonthToSelect; // if no value set actual month as default fallback.
     monthYearSelector.dispatchEvent(new Event('change'));
 });
 
